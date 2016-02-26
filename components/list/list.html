@@ -1,0 +1,16 @@
+<!-- list.html -->
+
+    <div class="jumbotron text-center">
+        <h1>Conditions List</h1>
+        <p>{{ message }}</p>
+    </div>
+
+
+    <!-- Here is where I am trying to implement the ngrepeat -->
+    <table>
+        <tr ng-repeat="entry in condition.entry" >
+            <td> {{ entry.resource.id }} </td>
+            <td> {{ entry.resource.notes }} </td>
+            <td> {{ entry.resource.patient.reference }} </td>
+        </tr>
+    </table>
