@@ -10,13 +10,21 @@
     });
 
     fihrballControllers.controller('listController', function($scope, $http) {
-            $scope.message = 'This page shows the conditions available.';
 
-            $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition').
-                success(function(data) {
-                    $scope.condition = data;
-                });
+        $scope.message = 'This page shows the conditions available.';
+
+        $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition').success(function(data) {
+
+            $scope.list = [];
+
+            // Grab each condition and add it to the array, no duplicates
+            angular.forEach(data.entry, function(entry, index) {
+                if ($scope.list.indexOf(entry.resource.notes) == -1) {
+                    $scope.list.push(entry.resource.notes);
+                }
+            });
         });
+    });
 
     fihrballControllers.controller('searchController', function($scope) {
         $scope.message = 'This is the search page.';
@@ -27,5 +35,5 @@
     });
 
     fihrballControllers.controller('aboutController', function($scope) {
-        $scope.message = 'Look! I am an about page.';
+        $scope.message = 'About Us';
     });
