@@ -7,9 +7,11 @@
 
 
     <h1>Conditions List</h1>
-    <table>
-        <tr ng-repeat="x in list | orderBy:'toString()' track by $index" >
-            <td> {{ x }} </td>
-        </tr>
-    </table>
+    <div align="center" style="vertical-align:bottom">
+        <table>
+            <tr ng-repeat="x in list | orderBy:'toString()' track by $index" >
+                <td> <button type="button" style="width:350px"> {{ x }} </button> </td>
+            </tr>
+        </table>
+    </div>
 
