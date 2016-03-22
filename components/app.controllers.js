@@ -43,25 +43,17 @@ var cities = [
         $scope.message = 'Everyone come and see how good I look!';
     });
 
-    fihrballControllers.controller('listController', function($scope, $http) {
+    fihrballControllers.controller('listController', function($scope, $http, List) {
 
         $scope.message = 'This page shows the conditions available.';
 
-        $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition').success(function(data) {
-
-            $scope.list = [];
-
-            // Grab each condition and add it to the array, no duplicates
-            angular.forEach(data.entry, function(entry, index) {
-                if ($scope.list.indexOf(entry.resource.notes) == -1) {
-                    $scope.list.push(entry.resource.notes);
-                }
-            });
-        });
+        $scope.list = List.getList();
     });
 
-    fihrballControllers.controller('searchController', function($scope) {
+    fihrballControllers.controller('searchController', function($scope, $http, List) {
         $scope.message = 'This is the search page.';
+
+        $scope.list = List.getList();
 
         var mapOptions = {
             zoom: 4,
@@ -103,8 +95,43 @@ var cities = [
         }
     });
 
-    fihrballControllers.controller('reportsController', function($scope) {
+    fihrballControllers.controller('reportsController', function($scope, $http, $q, $timeout, List) {
         $scope.message = 'This is the reports page.';
+
+        $scope.list = List.getList();
+
+        var text;
+
+        $scope.changedValue = function(input){
+            text = input;
+            console.log($scope.selectedItem);
+            $q.when()
+                .then(function () {
+                    var deferred = $q.defer();
+                    $scope.patientList = List.getPatients(text);
+                    patients = $scope.patientList;
+                    $timeout(function () { deferred.resolve("bar"); }, 5000);
+                    return deferred.promise;
+                })
+                .then(function (data) {
+                    $scope.patientData = List.getData(patients);
+                })
+        }
+
+        var patients = [];
+
+        //$q.when()
+        //    .then(function () {
+        //        var deferred = $q.defer();
+        //        $scope.patientList = List.getPatients(text);
+        //        patients = $scope.patientList;
+        //        $timeout(function () { deferred.resolve("bar"); }, 1000);
+        //        return deferred.promise;
+        //    })
+        //    .then(function (data) {
+        //        $scope.patientData = List.getData(patients);
+        //    })
+
     });
 
     fihrballControllers.controller('aboutController', function($scope) {

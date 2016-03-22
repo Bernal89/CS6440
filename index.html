@@ -6,16 +6,19 @@
     <head>
 
       <!-- load bootstrap and fontawesome via CDN -->
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
 
-      <!-- load angular and angular route via CDN -->
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+      <!-- load angular and angular route/animate via CDN -->
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+      <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.4.js"></script>
+
       <script src="components/app.routes.js."></script>
       <script src="components/app.controllers.js."></script>
 
-      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="assets/css/style.css">
 
       <!-- load the googlemaps APIs -->
       <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=&sensor=false&extension=.js"></script>
@@ -34,7 +37,7 @@
                 </div>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                    <li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
                     <li><a href="#list"><i class="fa fa-heartbeat"></i> Available Conditions</a></li>
                     <li><a href="#search"><i class="fa fa-map-marker"></i> Map Search</a></li>
                     <li><a href="#reports"><i class="fa fa-bar-chart"></i> Reports</a></li>
