@@ -117,6 +117,11 @@ var cities = [
                 $scope.patientData = List.getData(patients);
             })
     }
+    $scope.connectClick = function(input){
+        //window.location = "#connect?selectedCondition=" +input;
+        $location.path("#connect");
+
+    }
 
     var patients = [];
 
@@ -159,15 +164,6 @@ var cities = [
         }
         $scope.parseJSON = function(input){
             return JSON.parse(input);
-
-        }
-        $scope.concatArray = function(input){
-
-            var result="";
-            for (a in input)
-             result = result + " " + a;
-
-            return result
 
         }
 

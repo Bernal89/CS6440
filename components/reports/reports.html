@@ -9,7 +9,7 @@
             <h1>Select a Condition</h1>
             <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
             {{selectedItem}}
-            <a href="#connect">Connect</a>
+            <button class="button" ng-click="connectClick({{selectedItem}})">Connect</button>
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 

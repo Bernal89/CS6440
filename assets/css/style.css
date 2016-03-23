@@ -11,3 +11,11 @@ h2 {
     margin-bottom:0;
     margin-top: 0;
 }
+
+
+.button {
+    display: block;
+    height: 25px;
+    width: 80px;
+
+}
