@@ -155,6 +155,20 @@ var cities = [
                  .then(function (data) {
                     $scope.patientData = List.getData(patients);
                 })
+
+        }
+        $scope.parseJSON = function(input){
+            return JSON.parse(input);
+
+        }
+        $scope.concatArray = function(input){
+
+            var result="";
+            for (a in input)
+             result = result + " " + a;
+
+            return result
+
         }
 
     });

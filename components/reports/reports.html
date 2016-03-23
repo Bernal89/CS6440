@@ -9,7 +9,7 @@
             <h1>Select a Condition</h1>
             <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
             {{selectedItem}}
-            <a href="#/connect.html">Connect</a>
+            <a href="#connect">Connect</a>
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 
@@ -44,8 +44,3 @@
             <!--</table>-->
         <!--</div>-->
     </div><!-- /container -->
-<script>
-    $scope.go = function ( path ) {
-        $location.path( path );
-    };
-</script>
