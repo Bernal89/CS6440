@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../FHIRBALL/.idea/FHIRBALL.iml" filepath="$PROJECT_DIR$/../FHIRBALL/.idea/FHIRBALL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CS6440-New.iml" filepath="$PROJECT_DIR$/.idea/CS6440-New.iml" />
     </modules>
   </component>
 </project>

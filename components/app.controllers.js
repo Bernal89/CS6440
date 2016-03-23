@@ -96,7 +96,46 @@ var cities = [
     });
 
     fihrballControllers.controller('reportsController', function($scope, $http, $q, $timeout, List) {
-        $scope.message = 'This is the reports page.';
+    $scope.message = 'This is the reports page.';
+
+    $scope.list = List.getList();
+
+    var text;
+
+    $scope.changedValue = function(input){
+        text = input;
+        console.log($scope.selectedItem);
+        $q.when()
+            .then(function () {
+                var deferred = $q.defer();
+                $scope.patientList = List.getPatients(text);
+                patients = $scope.patientList;
+                $timeout(function () { deferred.resolve("bar"); }, 5000);
+                return deferred.promise;
+            })
+            .then(function (data) {
+                $scope.patientData = List.getData(patients);
+            })
+    }
+
+    var patients = [];
+
+    //$q.when()
+    //    .then(function () {
+    //        var deferred = $q.defer();
+    //        $scope.patientList = List.getPatients(text);
+    //        patients = $scope.patientList;
+    //        $timeout(function () { deferred.resolve("bar"); }, 1000);
+    //        return deferred.promise;
+    //    })
+    //    .then(function (data) {
+    //        $scope.patientData = List.getData(patients);
+    //    })
+
+});
+
+    fihrballControllers.controller('connectController', function($scope, $http, $q, $timeout, List) {
+        $scope.message = 'This is the Connect page.';
 
         $scope.list = List.getList();
 
@@ -113,24 +152,10 @@ var cities = [
                     $timeout(function () { deferred.resolve("bar"); }, 5000);
                     return deferred.promise;
                 })
-                .then(function (data) {
+                 .then(function (data) {
                     $scope.patientData = List.getData(patients);
                 })
         }
-
-        var patients = [];
-
-        //$q.when()
-        //    .then(function () {
-        //        var deferred = $q.defer();
-        //        $scope.patientList = List.getPatients(text);
-        //        patients = $scope.patientList;
-        //        $timeout(function () { deferred.resolve("bar"); }, 1000);
-        //        return deferred.promise;
-        //    })
-        //    .then(function (data) {
-        //        $scope.patientData = List.getData(patients);
-        //    })
 
     });
 

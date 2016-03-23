@@ -144,6 +144,11 @@
         .when('/about', {
           templateUrl: 'components/about/about.html',
           controller: 'aboutController'
-        });
+        })
+        // route for connect page
+          .when('/connect', {
+              templateUrl: 'components/connect/connect.html',
+              controller: 'connectController'
+          });
 
     });
