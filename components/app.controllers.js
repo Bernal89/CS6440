@@ -174,7 +174,7 @@ var cities = [
         $scope.searchName = '';     // set the default search/filter term
 
         $scope.checkSelection = function() {
-            if ($scope.selected > 0)
+            if ($scope.selected.length > 0)
                 return false
             else
                 return true
