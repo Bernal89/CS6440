@@ -117,11 +117,6 @@ var cities = [
                 $scope.patientData = List.getData(patients);
             })
     }
-    $scope.connectClick = function(input){
-        //window.location = "#connect?selectedCondition=" +input;
-        $location.path("#connect");
-
-    }
 
     var patients = [];
 
@@ -157,15 +152,37 @@ var cities = [
                     $timeout(function () { deferred.resolve("bar"); }, 5000);
                     return deferred.promise;
                 })
-                 .then(function (data) {
+                .then(function (data) {
                     $scope.patientData = List.getData(patients);
                 })
 
         }
-        $scope.parseJSON = function(input){
-            return JSON.parse(input);
 
+        $scope.selected = [];
+
+        $scope.toggle = function (item, list) {
+            var idx = list.indexOf(item);
+            if (idx > -1) list.splice(idx, 1);
+            else list.push(item);
         }
+
+        $scope.exists = function (item, list) {
+            return list.indexOf(item) > -1;
+        }
+        $scope.sortType = 'name'; // set the default sort type
+        $scope.sortReverse = false;  // set the default sort order
+        $scope.searchName = '';     // set the default search/filter term
+
+        $scope.checkSelection = function() {
+            if ($scope.selected > 0)
+                return false
+            else
+                return true
+        };
+        $scope.sendEmail = function(data) {
+            link=data +":akhanna38@gatech.edu";
+            window.location.href = link;
+        };
 
     });
 

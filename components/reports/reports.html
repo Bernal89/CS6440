@@ -9,7 +9,14 @@
             <h1>Select a Condition</h1>
             <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
             {{selectedItem}}
-            <button class="button" ng-click="connectClick({{selectedItem}})">Connect</button>
+
+                <md-content>
+                    <md-button class="md-fab md-primary md-hue-2" aria-label="Profile">
+                        <md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>
+            </md-button>
+                </md-content>
+
+            <a href="#connect">Connect</a>
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 

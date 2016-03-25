@@ -1,0 +1,42 @@
+<!-- connect.html -->
+    <div class="page-header text-center">
+        <h1>Connect Page</h1>
+        <!--<p>{{ message }}</p>-->
+    </div>
+
+    <div class="container">
+        <div class="col-sm-8 col-sm-offset-2">
+            <h1>Select a Condition</h1>
+            <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
+            {{selectedItem}}
+        </div><!-- col-sm-8 -->
+    </div><!-- /container -->
+
+            <h1>Patient Data - {{patientData.length}}</h1>
+        <div align="center" style="vertical-align:bottom">
+            <table class="table table-bordered table-striped" width="wrap">
+                <tr>
+                    <td>Select</td>
+                    <td><a href="#" ng-click="sortType = 'p.resource.name[0].given[0]'">Full Name<span ng-show="sortType == 'p.resource.name[0].given[0]'" class="fa fa-caret-down"></span></a></td>
+                    <td><a href="#" ng-click="sortType = 'p.resource.address[0].city[0]'">Address<span ng-show="sortType == 'p.resource.address[0].city[0]'" class="fa fa-caret-down"></span></a></td>
+                    <td><a href="#" ng-click="sortType = 'p.resource.name[0].given.join('.')'">Email ID<span ng-show="sortType == 'p.resource.name[0].given.join('.')'" class="fa fa-caret-down"></span></a></td>
+                    <td><a href="#" ng-click="sortType = 'phone'">Phone<span ng-show="sortType == 'phone'" class="fa fa-caret-down"></span></a></td>
+                    <td><a href="#" ng-click="sortType = 'p.resource.gender'">Gender<span ng-show="sortType == 'p.resource.gender'" class="fa fa-caret-down"></span></a></td>
+                    <td><a href="#" ng-click="sortType = 'p.resource.birthDate'">Date Of Birth<span ng-show="sortType == 'p.resource.birthDate'" class="fa fa-caret-down"></span></a></td>
+                </tr>
+                <tr ng-repeat="p in patientData | orderBy:sortType:sortReverse track by $index" >
+                    <td><input type="checkbox" ng-checked="exists($index, selected)" ng-click="toggle($index, selected)"></td>
+                    <td>{{p.resource.name[0].given.join(' ')}} {{p.resource.name[0].family.join(' ')}}</td>
+                    <td>{{p.resource.address[0].city}} , {{p.resource.address[0].state}}</td>
+                    <td>{{p.resource.name[0].given.join('.')}}.{{p.resource.name[0].family.join('.')}}@gmail.com</td>
+                    <td><a href="tel:1234567890">1234567890</a></td>
+                    <td>{{p.resource.gender}}</td>
+                    <td>{{p.resource.birthDate}}</td>
+                </tr>
+                <tr>
+                    <td > <button class="md-primary" ng-click="sendEmail('mailto')" ng-disabled="checkSelection()">Send Email</button></td>
+                    <td > <button class="md-primary" ng-click="sendEmail('webcal')" ng-disabled="checkSelection()">Schedule Meeting</button></td>
+                </tr>
+            </table>
+        </div>
+    </div><!-- /container -->
