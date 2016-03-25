@@ -1,53 +1,45 @@
 <!-- reports.html -->
-    <div class="page-header text-center">
-        <h1>Reports Page</h1>
-        <!--<p>{{ message }}</p>-->
+<div class="page-header text-center">
+    <h1>Reports Page</h1>
+    <!--<p>{{ message }}</p>-->
+</div>
+
+<div class="container">
+    <div class="col-sm-8 col-sm-offset-2">
+        <h1>Select a Condition</h1>
+        <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
+        {{selectedItem}}
+    </div><!-- col-sm-8 -->
+</div><!-- /container -->
+
+<div class="container">
+    <h1>Patient List - {{patientList.length}}</h1>
+    <div align="left" style="vertical-align:bottom">
+        <table>
+            <tr ng-repeat="x in patientList | orderBy:'toString()' track by $index" >
+                <td> {{ x }} </td>
+            </tr>
+        </table>
     </div>
 
-    <div class="container">
-        <div class="col-sm-8 col-sm-offset-2">
-            <h1>Select a Condition</h1>
-            <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
-            {{selectedItem}}
-
-                <md-content>
-                    <md-button class="md-fab md-primary md-hue-2" aria-label="Profile">
-                        <md-icon md-svg-src="img/icons/ic_people_24px.svg"></md-icon>
-            </md-button>
-                </md-content>
-
-            <a href="#connect">Connect</a>
-        </div><!-- col-sm-8 -->
-    </div><!-- /container -->
-
-    <div class="container">
-        <h1>Patient List - {{patientList.length}}</h1>
-        <div align="left" style="vertical-align:bottom">
-            <table>
-                <tr ng-repeat="x in patientList | orderBy:'toString()' track by $index" >
-                    <td> {{ x }} </td>
-                </tr>
-            </table>
-        </div>
-
-        <h1>Patient Data - {{patientData.length}}</h1>
-        <div align="left" style="vertical-align:bottom">
-            <table>
-                <tr ng-repeat="x in patientData | orderBy:'toString()' track by $index" >
-                    <td> {{ x }} </td>
-                </tr>
-            </table>
-        </div>
-    </div><!-- /container -->
+    <h1>Patient Data - {{patientData.length}}</h1>
+    <div align="left" style="vertical-align:bottom">
+        <table>
+            <tr ng-repeat="x in patientData | orderBy:'toString()' track by $index" >
+                <td> {{ x }} </td>
+            </tr>
+        </table>
+    </div>
+</div><!-- /container -->
 
 
-    <div class="container">
-        <!--<h1>Patient Data List</h1>-->
-        <!--<div align="left" style="vertical-align:bottom">-->
-            <!--<table>-->
-                <!--<tr ng-repeat="x in patientData" >-->
-                    <!--<td> {{ x }} </td>-->
-                <!--</tr>-->
-            <!--</table>-->
-        <!--</div>-->
-    </div><!-- /container -->
+<div class="container">
+    <!--<h1>Patient Data List</h1>-->
+    <!--<div align="left" style="vertical-align:bottom">-->
+    <!--<table>-->
+    <!--<tr ng-repeat="x in patientData" >-->
+    <!--<td> {{ x }} </td>-->
+    <!--</tr>-->
+    <!--</table>-->
+    <!--</div>-->
+</div><!-- /container -->
