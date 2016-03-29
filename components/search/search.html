@@ -1,21 +1,21 @@
 <!-- search.html -->
 
     <div class="page-header text-center">
-        <h1>Search Page</h1>
+        <h1>Conditions Map</h1>
         <!--<p>{{ message }}</p>-->
     </div>
 
     <div class="container">
         <div class="col-sm-8 col-sm-offset-2">
             <h1>Select a Condition</h1>
-            <select ng-model="model.condition" ng-options="x as x for x in list" ></select>
+            <select ng-model="model.condition" ng-options="x as x for x in list" ng-change="getConditionPatients()"></select>
             {{model.condition}}
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 
     <div class="container">
-        <h1>Condition Map</h1>
-        <div align="left" style="vertical-align:bottom">
+        <!-- <h1>Condition Map</h1> -->
+        <div align="left" style="vertical-align:bottom; margin-top:15px;">
         </div>
     </div><!-- /container -->
 
@@ -24,4 +24,4 @@
         <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
             <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
         </div>
-    </div><!-- /container -->
+    </div><!-- /container

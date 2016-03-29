@@ -8,7 +8,7 @@
       'ngAnimate'
     ]);
 
-    fihrballApp.factory('List', function($rootScope, $http, $q) {
+    fihrballApp.factory('List', function($rootScope, $http, $q, $log) {
         var listService = {
             conditionList: [],
             patientList: [],
@@ -51,6 +51,7 @@
             // WHEN patientList is referenced here it appears to be empty?????
             $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Patient')
                 .then(function(response) {
+                    $log.info(response);
                     // Grab each condition and add it to the array, no duplicates
                     angular.forEach(response.data.entry, function(entry, index) {
                         if (patients.indexOf(entry.fullUrl) == -1) {

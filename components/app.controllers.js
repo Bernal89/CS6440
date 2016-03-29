@@ -59,7 +59,7 @@ var cities = [
             zoom: 4,
             center: new google.maps.LatLng(40.0000, -98.0000),
             mapTypeId: google.maps.MapTypeId.TERRAIN
-        }
+        };
 
         $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -83,7 +83,7 @@ var cities = [
 
             $scope.markers.push(marker);
 
-        }
+        };
 
         for (i = 0; i < cities.length; i++){
             createMarker(cities[i]);
@@ -92,7 +92,11 @@ var cities = [
         $scope.openInfoWindow = function(e, selectedMarker){
             e.preventDefault();
             google.maps.event.trigger(selectedMarker, 'click');
-        }
+        };
+
+        $scope.getConditionPatients = function(){
+            List.getData(null);
+        };
     });
 
     fihrballControllers.controller('reportsController', function($scope, $http, $q, $timeout, List) {
