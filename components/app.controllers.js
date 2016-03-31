@@ -102,7 +102,30 @@ var cities = [
 
     var text;
 
+    $scope.spinner = {
+        active: false,
+        on: function () {
+            this.active = true;
+        },
+        off: function () {
+            this.active = false;
+        }
+    };
+
+    $scope.pielabels = ["Male", "Female"];
+    $scope.piedata = [0, 0];
+
+    $scope.ageseries = ['Series A']
+    $scope.agelabels = ['Under 18', '18 to 30', '31 to 50', 'Over 50'];
+    $scope.agedata =[[0, 0, 0, 0]];
+
+    $scope.regionlabels = ["Northeast", "South", "Midwest", "West", "Other"];
+    $scope.regiondata = [0, 0, 0, 0, 0];
+
+    $scope.patientData = {}
+
     $scope.changedValue = function(input){
+        $scope.spinner.on()
         text = input;
         console.log($scope.selectedItem);
         $q.when()
@@ -114,24 +137,22 @@ var cities = [
                 return deferred.promise;
             })
             .then(function (data) {
-                $scope.patientData = List.getData(patients);
+                $q.when()
+                    .then(function () {
+                        var deferred = $q.defer();
+                        $scope.patientData = List.getChartData(patients);
+                        $timeout(function () { deferred.resolve("bar"); }, 5000);
+                        return deferred.promise;
+                    })
+                    .then(function (data) {
+                        console.log($scope.patientData)
+                        $scope.piedata = [$scope.patientData.male, $scope.patientData.female];
+                        $scope.agedata = [[$scope.patientData.under18, $scope.patientData.upto30, $scope.patientData.over30, $scope.patientData.over50]];
+                        $scope.regiondata = [$scope.patientData.northeast, $scope.patientData.south, $scope.patientData.midwest, $scope.patientData.west, $scope.patientData.other];
+                        $scope.spinner.off();
+                    })
             })
     }
-
-    var patients = [];
-
-    //$q.when()
-    //    .then(function () {
-    //        var deferred = $q.defer();
-    //        $scope.patientList = List.getPatients(text);
-    //        patients = $scope.patientList;
-    //        $timeout(function () { deferred.resolve("bar"); }, 1000);
-    //        return deferred.promise;
-    //    })
-    //    .then(function (data) {
-    //        $scope.patientData = List.getData(patients);
-    //    })
-
 });
 
     fihrballControllers.controller('connectController', function($scope, $http, $q, $timeout, List) {
@@ -141,7 +162,18 @@ var cities = [
 
         var text;
 
+        $scope.spinner = {
+            active: false,
+            on: function () {
+                this.active = true;
+            },
+            off: function () {
+                this.active = false;
+            }
+        };
+
         $scope.changedValue = function(input){
+            $scope.spinner.on();
             text = input;
             console.log($scope.selectedItem);
             $q.when()
@@ -154,6 +186,7 @@ var cities = [
                 })
                 .then(function (data) {
                     $scope.patientData = List.getData(patients);
+                    $scope.spinner.off();
                 })
 
         }

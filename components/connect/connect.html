@@ -8,12 +8,12 @@
         <div class="col-sm-8 col-sm-offset-2">
             <h1>Select a Condition</h1>
             <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
-            {{selectedItem}}
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 
-            <h1>Patient Data - {{patientData.length}}</h1>
-        <div align="center" style="vertical-align:bottom">
+    <h1>{{selectedItem}} Patient Data - {{patientData.length}}</h1>
+    <div align="center" style="vertical-align:bottom">
+        <treasure-overlay-spinner active='spinner.active'>
             <table class="table table-bordered table-striped" width="wrap">
                 <tr>
                     <td>Select</td>
@@ -38,5 +38,6 @@
                     <td > <button class="md-primary" ng-click="sendEmail('webcal')" ng-disabled="checkSelection()">Schedule Meeting</button></td>
                 </tr>
             </table>
-        </div>
-    </div><!-- /container -->
+        </treasure-overlay-spinner>
+    </div>
+
