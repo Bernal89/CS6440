@@ -8,8 +8,9 @@
     <div class="container">
         <div class="col-sm-8 col-sm-offset-2">
             <h1>Select a Condition</h1>
-            <select ng-model="model.condition" ng-options="x as x for x in list" ng-change="getConditionPatients()"></select>
-            {{model.condition}}
+            <select ng-model="model.condition" ng-change="getConditionPatients()"
+                ng-options="option.display for option in list | orderBy: 'display' track by option.code">
+            </select>
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 
@@ -20,8 +21,22 @@
     </div><!-- /container -->
 
     <div class="container">
-        <div id="map"></div>
-        <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
-            <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
-        </div>
-    </div><!-- /container
+        <div id="map" style="margin-bottom: 20px;"></div>
+        <table class="table table-stripped" ng-show="markers.length > 0"
+            style="margin-bottom: 20px;border: 1px solid #CCC">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="marker in markers | orderBy : 'title' track by $index">
+                    <td>{{$index + 1}}</td>
+                    <td>
+                        <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div><!-- /container -->

@@ -1,40 +1,6 @@
 // app.controllers.js
 /* Controllers */
 
-//Data
-var cities = [
-    {
-        city : 'Toronto',
-        desc : 'This is the best city in the world!',
-        lat : 43.7000,
-        long : -79.4000
-    },
-    {
-        city : 'New York',
-        desc : 'This city is aiiiiite!',
-        lat : 40.6700,
-        long : -73.9400
-    },
-    {
-        city : 'Chicago',
-        desc : 'This is the second best city in the world!',
-        lat : 41.8819,
-        long : -87.6278
-    },
-    {
-        city : 'Los Angeles',
-        desc : 'This city is live!',
-        lat : 34.0500,
-        long : -118.2500
-    },
-    {
-        city : 'Las Vegas',
-        desc : 'Sin City...\'nuff said!',
-        lat : 36.0800,
-        long : -115.1522
-    }
-];
-
     // create the module and name it fihrballControllers
     var fihrballControllers = angular.module('fihrballControllers', []);
 
@@ -50,7 +16,7 @@ var cities = [
         $scope.list = List.getList();
     });
 
-    fihrballControllers.controller('searchController', function($scope, $http, List) {
+    fihrballControllers.controller('searchController', function($scope, $http, $log, List) {
         $scope.message = 'This is the search page.';
 
         $scope.list = List.getList();
@@ -85,18 +51,45 @@ var cities = [
 
         };
 
-        for (i = 0; i < cities.length; i++){
-            createMarker(cities[i]);
-        }
-
         $scope.openInfoWindow = function(e, selectedMarker){
             e.preventDefault();
             google.maps.event.trigger(selectedMarker, 'click');
         };
 
         $scope.getConditionPatients = function(){
-            List.getData(null);
+
+            $scope.cities = [];
+
+            // Clear Map
+            for (var i = $scope.markers.length - 1; i >= 0; i--) {
+                $scope.markers[i].setMap(null);
+            }
+            $scope.markers.length = 0;
+
+            // Get all patients with the chosen condition
+            List.getConditionPatients($scope.model.condition.code).then(function(data){
+
+                // For each patient, get the coordinates of their city
+                for (var i = data.length - 1; i >= 0; i--) {
+                    List.getLocationCoordinates(data[i].state, data[i].city)
+                        .then(function(city){
+
+                            $scope.cities.push(city);
+
+                            if($scope.cities.length == data.length){
+
+                                for (i = 0; i < $scope.cities.length; i++){
+                                    createMarker($scope.cities[i]);
+                                }
+                            }
+
+                            $log.info("I'm done!");
+                        });
+                }
+
+            });
         };
+
     });
 
     fihrballControllers.controller('reportsController', function($scope, $http, $q, $timeout, List) {
@@ -119,22 +112,10 @@ var cities = [
                 })
                 .then(function (data) {
                     $scope.patientData = List.getData(patients);
-                })
-        }
+                });
+        };
 
         var patients = [];
-
-        //$q.when()
-        //    .then(function () {
-        //        var deferred = $q.defer();
-        //        $scope.patientList = List.getPatients(text);
-        //        patients = $scope.patientList;
-        //        $timeout(function () { deferred.resolve("bar"); }, 1000);
-        //        return deferred.promise;
-        //    })
-        //    .then(function (data) {
-        //        $scope.patientData = List.getData(patients);
-        //    })
 
     });
 
