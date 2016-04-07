@@ -1,17 +1,26 @@
+
 <!-- list.html -->
 
-    <div class="page-header text-center">
-        <h1>Available Conditions</h1>
-        <!--<p>{{ message }}</p>-->
-    </div>
+<div class="page-header text-center">
+    <h1>Available Conditions</h1>
+    <!--<p>{{ message }}</p>-->
+</div>
 
-    <div class="container">
-        <h1>Conditions List</h1>
-        <div align="left" style="vertical-align:bottom">
-            <table>
-                <tr ng-repeat="x in list | orderBy:'toString()' track by $index" >
-                    <td> <button type="button" style="width:350px"> {{ x }} </button> </td>
-                </tr>
-            </table>
-        </div>
-    </div><!-- /container -->
+<div class="container">
+    <h1>Conditions List</h1>
+    <div align="left" style="vertical-align:bottom">
+        <table class="table table-striped table-hover" style="border:1px solid #CCC">
+            <thead>
+            <tr><th>#</th><th>SNOMEDCT CODE</th><th>CONDITION</th></tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="x in list | orderBy:'display' track by x.code" >
+                <td>{{$index+1}}</td>
+                <td>{{x.code}}</td>
+                <td> {{ x.display }} </td>
+                <!-- <td> <button type="button" style="width:350px"> {{ x.display }} </button> </td> -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div><!-- /container -->

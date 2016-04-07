@@ -7,11 +7,11 @@
     <div class="container">
         <div class="col-sm-8 col-sm-offset-2">
             <h1>Select a Condition</h1>
-            <select ng-model="selectedItem" ng-options="x as x for x in list" ng-change="changedValue(selectedItem)" ></select>
+            <select ng-model="selectedItem" ng-options="option.display for option in list | orderBy: 'display' track by option.code" ng-change="changedValue(selectedItem.display)" ></select>
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 
-    <h1>{{selectedItem}} Patient Data - {{patientData.length}}</h1>
+    <h1>{{selectedItem.display}} Patient Data - {{patientData.length}}</h1>
     <div align="center" style="vertical-align:bottom">
         <treasure-overlay-spinner active='spinner.active'>
             <table class="table table-bordered table-striped" width="wrap">

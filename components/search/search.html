@@ -1,27 +1,44 @@
 <!-- search.html -->
 
-    <div class="page-header text-center">
-        <h1>Search Page</h1>
-        <!--<p>{{ message }}</p>-->
-    </div>
+<div class="page-header text-center">
+    <h1>Conditions Map</h1>
+    <!--<p>{{ message }}</p>-->
+</div>
 
-    <div class="container">
-        <div class="col-sm-8 col-sm-offset-2">
-            <h1>Select a Condition</h1>
-            <select ng-model="model.condition" ng-options="x as x for x in list" ></select>
-            {{model.condition}}
-        </div><!-- col-sm-8 -->
-    </div><!-- /container -->
+<div class="container">
+    <div class="col-sm-8 col-sm-offset-2">
+        <h1>Select a Condition</h1>
+        <select ng-model="model.condition" ng-change="getConditionPatients()"
+                ng-options="option.display for option in list | orderBy: 'display' track by option.code">
+        </select>
+    </div><!-- col-sm-8 -->
+</div><!-- /container -->
 
-    <div class="container">
-        <h1>Condition Map</h1>
-        <div align="left" style="vertical-align:bottom">
+<div class="container">
+    <treasure-overlay-spinner active='spinner.active'>
+        <!-- <h1>Condition Map</h1> -->
+        <div align="left" style="vertical-align:bottom; margin-top:15px;">
         </div>
-    </div><!-- /container -->
+    </treasure-overlay-spinner>
+</div><!-- /container -->
 
-    <div class="container">
-        <div id="map"></div>
-        <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
-            <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
-        </div>
-    </div><!-- /container -->
+<div class="container">
+    <div id="map" style="margin-bottom: 20px;"></div>
+    <table class="table table-stripped" ng-show="markers.length > 0"
+           style="margin-bottom: 20px;border: 1px solid #CCC">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Location</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="marker in markers | orderBy : 'title' track by $index">
+            <td>{{$index + 1}}</td>
+            <td>
+                <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div><!-- /container -->

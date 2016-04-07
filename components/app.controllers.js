@@ -1,40 +1,6 @@
 // app.controllers.js
 /* Controllers */
 
-//Data
-var cities = [
-    {
-        city : 'Toronto',
-        desc : 'This is the best city in the world!',
-        lat : 43.7000,
-        long : -79.4000
-    },
-    {
-        city : 'New York',
-        desc : 'This city is aiiiiite!',
-        lat : 40.6700,
-        long : -73.9400
-    },
-    {
-        city : 'Chicago',
-        desc : 'This is the second best city in the world!',
-        lat : 41.8819,
-        long : -87.6278
-    },
-    {
-        city : 'Los Angeles',
-        desc : 'This city is live!',
-        lat : 34.0500,
-        long : -118.2500
-    },
-    {
-        city : 'Las Vegas',
-        desc : 'Sin City...\'nuff said!',
-        lat : 36.0800,
-        long : -115.1522
-    }
-];
-
     // create the module and name it fihrballControllers
     var fihrballControllers = angular.module('fihrballControllers', []);
 
@@ -50,8 +16,18 @@ var cities = [
         $scope.list = List.getList();
     });
 
-    fihrballControllers.controller('searchController', function($scope, $http, List) {
+    fihrballControllers.controller('searchController', function($scope, $http, $log, List) {
         $scope.message = 'This is the search page.';
+
+        $scope.spinner = {
+            active: false,
+            on: function () {
+                this.active = true;
+            },
+            off: function () {
+                this.active = false;
+            }
+        };
 
         $scope.list = List.getList();
 
@@ -59,7 +35,7 @@ var cities = [
             zoom: 4,
             center: new google.maps.LatLng(40.0000, -98.0000),
             mapTypeId: google.maps.MapTypeId.TERRAIN
-        }
+        };
 
         $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -83,16 +59,48 @@ var cities = [
 
             $scope.markers.push(marker);
 
-        }
-
-        for (i = 0; i < cities.length; i++){
-            createMarker(cities[i]);
-        }
+        };
 
         $scope.openInfoWindow = function(e, selectedMarker){
             e.preventDefault();
             google.maps.event.trigger(selectedMarker, 'click');
-        }
+        };
+
+        $scope.getConditionPatients = function(){
+            $scope.spinner.on()
+            $scope.cities = [];
+
+            // Clear Map
+            for (var i = $scope.markers.length - 1; i >= 0; i--) {
+                $scope.markers[i].setMap(null);
+            }
+            $scope.markers.length = 0;
+
+            // Get all patients with the chosen condition
+            List.getConditionPatients($scope.model.condition.code).then(function(data){
+
+                // For each patient, get the coordinates of their city
+                for (var i = data.length - 1; i >= 0; i--) {
+                    List.getLocationCoordinates(data[i].state, data[i].city)
+                        .then(function(city){
+
+                            $scope.cities.push(city);
+
+                            if($scope.cities.length == data.length){
+
+                                for (i = 0; i < $scope.cities.length; i++){
+                                    createMarker($scope.cities[i]);
+                                }
+                            }
+
+                            $log.info("I'm done!");
+                            $scope.spinner.off()
+                        });
+                }
+
+            });
+        };
+
     });
 
     fihrballControllers.controller('reportsController', function($scope, $http, $q, $timeout, List) {
@@ -175,7 +183,7 @@ var cities = [
         $scope.changedValue = function(input){
             $scope.spinner.on();
             text = input;
-            console.log($scope.selectedItem);
+            console.log($scope.selectedItem.display);
             $q.when()
                 .then(function () {
                     var deferred = $q.defer();
@@ -185,7 +193,7 @@ var cities = [
                     return deferred.promise;
                 })
                 .then(function (data) {
-                    $scope.patientData = List.getData(patients);
+                    $scope.patientData = List.getConnectData(patients);
                     $scope.spinner.off();
                 })
 

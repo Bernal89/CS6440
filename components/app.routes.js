@@ -20,17 +20,29 @@
 
         listService.getList = function(){
             listService.conditionList = [];
-            count = 0;
-            $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition?_count=400')
+            var allConditions = {};
+            $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition')
                 .then(function(response) {
+
                     // Grab each condition and add it to the array, no duplicates
                     angular.forEach(response.data.entry, function(entry, index) {
-                        count = count + 1
-                        if (listService.conditionList.indexOf(entry.resource.notes) == -1) {
-                            listService.conditionList.push(entry.resource.notes);
+
+                        // Lets limit these to SNOMEDCT coded conditions
+                        if (entry.resource.code.coding && entry.resource.code.coding.length > 0 &&
+                            entry.resource.code.coding[0].system == "http://snomed.info/sct") {
+
+                            var condition = {};
+                            condition.code = entry.resource.code.coding[0].code;
+                            condition.display = entry.resource.code.coding[0].display;
+                            allConditions[condition.code] = condition;
                         }
-                        //console.log(count)
+
                     });
+
+                    for(var key in allConditions){
+                        listService.conditionList.push(allConditions[key]);
+                    }
+
                 });
             return listService.conditionList;
         };
@@ -41,10 +53,8 @@
             $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition?_count=400')
                 .then(function (response) {
                     var patientList = [];
-                    // Grab each condition and add it to the array, no duplicates
                     angular.forEach(response.data.entry, function (entry, index) {
-                        //console.log(count++)
-                        if (entry.resource.notes == text && listService.patientList.indexOf("http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/" +
+                        if (entry.resource.code.coding[0].display == text && listService.patientList.indexOf("http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/" +
                                 entry.resource.patient.reference)== -1) {
                             listService.patientList.push("http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/" +
                                 entry.resource.patient.reference);
@@ -54,7 +64,7 @@
             return listService.patientList;
         };
 
-        listService.getData = function(patients){
+        listService.getConnectData = function(patients){
             listService.patientData = [];
             // WHEN patientList is referenced here it appears to be empty?????
             $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Patient?_count=400')
@@ -69,6 +79,73 @@
                     });
                 });
             return listService.patientData;
+        };
+
+        listService.getConditionPatients = function(conditionCode){
+
+            var deferred = $q.defer();
+            var patients = [];
+
+            listService.patientData = [];
+
+            // Get all instances of the given condition
+            $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition?code='+conditionCode)
+                .success(function(response) {
+
+                    if (response && response.entry) {
+                        angular.forEach(response.entry, function(entry, index) {
+                            patients.push(entry.resource.patient.reference);
+                        });
+                    }
+                }).error(function(error){
+                deferred.reject(error);
+            }).then(function(){
+
+                // For each patient with the condition, get their city and state
+                for (var i = patients.length - 1; i >= 0; i--) {
+                    $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/' + patients[i])
+                        .success(function(data){
+                            if (data && data.address && data.address.length > 0) {
+                                listService.patientData.push(
+                                    {
+                                        "city": data.address[0].city,
+                                        "state": data.address[0].state
+                                    }
+                                );
+                            }
+                        }).then(function(){
+                        //If this is the last item, resolve the promise
+                        if (listService.patientData.length == patients.length) {
+                            deferred.resolve(listService.patientData);
+                        }
+                    });
+                }
+            });
+            return deferred.promise;
+        };
+
+        listService.getLocationCoordinates = function(state, city){
+            var deferred = $q.defer();
+
+            $http.get('components/cities.json').success(function(response){
+
+                // Get the coordinates of the given city
+                for (var i = response.length - 1; i >= 0; i--) {
+                    if(response[i].state == state && response[i].city == city){
+                        deferred.resolve(
+                            {
+                                "city": city,
+                                "desc": "",
+                                "lat": response[i].lat,
+                                "long": response[i].long
+                            }
+                        );
+                    }
+                }
+            }).error(function(error){
+                deferred.reject(error);
+            });
+            return deferred.promise;
         };
 
         listService.getChartData = function(patients){
