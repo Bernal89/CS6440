@@ -6,7 +6,7 @@
 
     // create the controller and inject Angular's $scope
     fihrballControllers.controller('mainController', function($scope) {
-        $scope.message = 'Everyone come and see how good I look!';
+        $scope.message = 'Welcome to Team FHIRBall Population Health App!';
     });
 
     fihrballControllers.controller('listController', function($scope, $http, List) {
@@ -164,7 +164,7 @@
 });
 
     fihrballControllers.controller('connectController', function($scope, $http, $q, $timeout, List) {
-        $scope.message = 'This is the Connect page.';
+        $scope.message = 'Connect to Patients';
 
         $scope.list = List.getList();
 
@@ -205,14 +205,12 @@
             var idx = list.indexOf(item);
             if (idx > -1) list.splice(idx, 1);
             else list.push(item);
+
         }
 
         $scope.exists = function (item, list) {
             return list.indexOf(item) > -1;
         }
-        $scope.sortType = 'name'; // set the default sort type
-        $scope.sortReverse = false;  // set the default sort order
-        $scope.searchName = '';     // set the default search/filter term
 
         $scope.checkSelection = function() {
             if ($scope.selected.length > 0)
@@ -221,8 +219,23 @@
                 return true
         };
         $scope.sendEmail = function(data) {
-            link=data +":akhanna38@gatech.edu";
+            emailds="";
+            selected=$scope.selected;
+            console.log(selected);
+
+            patientData=List.getConnectData(patients);
+            for (var i = 0; i < selected.length; i++) {
+                p=$scope.patientData[selected[i]];
+                emailds +=p.resource.name[0].given.join('.') + "." + p.resource.name[0].family.join('.') + "@gmail.com;";
+            }
+
+            link=data +emailds +"?subject=" + "Patient Connect - " + $scope.selectedItem.display;
+            $scope.link=link;
             window.location.href = link;
+        };
+        $scope.parJson = function (json) {
+            p= JSON.parse(json);
+            return p.resource.name[0].given.join('.') + "." + p.resource.name[0].family.join('.') + "@gmail.com;";
         };
 
     });
