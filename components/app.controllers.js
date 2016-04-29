@@ -6,7 +6,7 @@
 
     // create the controller and inject Angular's $scope
     fihrballControllers.controller('mainController', function($scope) {
-        $scope.message = 'Welcome to Team FHIRBall Population Health App!';
+        $scope.message = 'Welcome to Team FHIRBall Population Health Project App!';
     });
 
     fihrballControllers.controller('listController', function($scope, $http, List) {

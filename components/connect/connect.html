@@ -11,33 +11,35 @@
         </div><!-- col-sm-8 -->
     </div><!-- /container -->
 
-    <h1>{{selectedItem.display}} Patient Data - {{patientData.length}}</h1>
-    <div align="center" style="vertical-align:bottom">
-        <treasure-overlay-spinner active='spinner.active'>
-            <table class="table table-bordered table-striped" width="wrap">
-                <tr>
-                    <td>Select</td>
-                    <td><a href="#" >Full Name</a></td>
-                    <td><a href="#">Address</a></td>
-                    <td><a href="#">Email ID</a></td>
-                    <td><a href="#">Phone</a></td>
-                    <td><a href="#">Gender</a></td>
-                    <td><a href="#">Date Of Birth</a></td>
-                </tr>
-                <tr ng-repeat="p in patientData | orderBy:sortType:sortReverse track by $index" >
-                    <td><input type="checkbox" ng-checked="exists($index, selected)" ng-click="toggle($index, selected)"></td>
-                    <td>{{p.resource.name[0].given.join(' ')}} {{p.resource.name[0].family.join(' ')}}</td>
-                    <td>{{p.resource.address[0].city}} , {{p.resource.address[0].state}}</td>
-                    <td>{{p.resource.name[0].given.join('.')}}.{{p.resource.name[0].family.join('.')}}@gmail.com</td>
-                    <td><a href="tel:1234567890">1234567890</a></td>
-                    <td>{{p.resource.gender}}</td>
-                    <td>{{p.resource.birthDate}}</td>
-                </tr>
-                <tr>
-                    <td > <button class="md-primary" ng-click="sendEmail('mailto:')" ng-disabled="checkSelection()">Send Email</button></td>
-                    <td > <button class="md-primary" ng-click="sendEmail('webcal:')" ng-disabled="checkSelection()">Schedule Meeting</button></td>
-                </tr>
-            </table>
-        </treasure-overlay-spinner>
+    <div class="container">
+        <h1>{{selectedItem.display}} Patient Data - {{patientData.length}}</h1>
+        <div align="center" style="vertical-align:bottom">
+            <treasure-overlay-spinner active='spinner.active'>
+                <table class="table table-bordered table-striped" width="wrap">
+                    <tr>
+                        <td>Select</td>
+                        <td><a href="#" >Full Name</a></td>
+                        <td><a href="#">Address</a></td>
+                        <td><a href="#">Email ID</a></td>
+                        <td><a href="#">Phone</a></td>
+                        <td><a href="#">Gender</a></td>
+                        <td><a href="#">Date Of Birth</a></td>
+                    </tr>
+                    <tr ng-repeat="p in patientData | orderBy:sortType:sortReverse track by $index" >
+                        <td><input type="checkbox" ng-checked="exists($index, selected)" ng-click="toggle($index, selected)"></td>
+                        <td>{{p.resource.name[0].given.join(' ')}} {{p.resource.name[0].family.join(' ')}}</td>
+                        <td>{{p.resource.address[0].city}} , {{p.resource.address[0].state}}</td>
+                        <td>{{p.resource.name[0].given.join('.')}}.{{p.resource.name[0].family.join('.')}}@gmail.com</td>
+                        <td><a href="tel:1234567890">1234567890</a></td>
+                        <td>{{p.resource.gender}}</td>
+                        <td>{{p.resource.birthDate}}</td>
+                    </tr>
+                    <tr>
+                        <td > <button class="md-primary" ng-click="sendEmail('mailto:')" ng-disabled="checkSelection()">Send Email</button></td>
+                        <td > <button class="md-primary" ng-click="sendEmail('webcal:')" ng-disabled="checkSelection()">Schedule Meeting</button></td>
+                    </tr>
+                </table>
+            </treasure-overlay-spinner>
+        </div>
     </div>
 

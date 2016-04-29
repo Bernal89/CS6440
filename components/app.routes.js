@@ -21,7 +21,7 @@
         listService.getList = function(){
             listService.conditionList = [];
             var allConditions = {};
-            $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition')
+            $http.get('http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base/Condition?_count=400')
                 .then(function(response) {
 
                     // Grab each condition and add it to the array, no duplicates

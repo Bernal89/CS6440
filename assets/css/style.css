@@ -4,7 +4,7 @@
 }
 
 .infoWindowContent {
-    font-size:  14px !important;
+    font-size:  16px !important;
     border-top: 1px solid #ccc;
     padding-top: 10px;
 }
@@ -20,6 +20,49 @@ h2 {
     width: 80px;
 }
 
+#wrap {
+    width:1200px;
+    margin:0 auto;
+}
+#left_col {
+    float:left;
+    width:600px;
+    font-size: 1.75em;
+}
+#right_col {
+    float:right;
+    width:600px;
+}
+
 .column-left{ float: left; width: 33%;}
 .column-right{ float: right; width: 33%;}
 .column-center{ display: inline-block; width: 33%;}
+
+@font-face {
+    font-family: myFont;
+    src: url("Chunkfive.otf") format("opentype");
+}
+div {
+    font-family: myFont;
+    font-size: 1.05em;
+}
+
+body{
+    /*background-color: #D3E9BA;*/
+}
+
+.navbar {
+    background-color: #c0392b;
+}
+
+.navbar-default .navbar-nav>li>a{
+    color: white;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+/*.jumbotron{*/
+    /*background-color: #D3E9BA;*/
+/*}*/
